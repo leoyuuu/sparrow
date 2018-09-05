@@ -1,0 +1,3 @@
+main.c 
+./tools/log.c 
+./configs/config.c

@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "tool.h": "c",
+        "config.h": "c"
+    }
+}
