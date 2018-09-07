@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "../vm/vm.h"
+#include "../parser/parser.h"
 #include <stdlib.h>
 #include <stdarg.h>
 
@@ -30,3 +31,37 @@ DEFINE_BUFFER_METHOD(String)
 DEFINE_BUFFER_METHOD(Byte)
 DEFINE_BUFFER_METHOD(Char)
 DEFINE_BUFFER_METHOD(Int)
+
+void symbolTableClear(VM* vm, SymbolTable* buffer) {
+    uint32_t idx = 0;
+    while(idx < buffer->count) {
+        memManager(vm, buffer->datas[idx++].str, 0, 0);
+    }
+    StringBufferClear(vm, buffer);
+}
+
+void errorReport(void* parser, ErrorType errorType, const char* fmt, ...) {
+    char buffer(DEFAULT_BUFFER_SIZE) = ('\0');
+    va_list ap;
+    va_start(ap, fmt);
+    vsnprintf(buffer, DEFAULT_BUFFER_SIZE, fmt, ap)l
+    va_end(ap)l
+
+    switch(errorType) {
+        case ERROR_IO:
+        case ERROR_MEM:
+            fprintf(stderr, "%s:%d In function %s():%s\n", __FILE__, __LINE__, __func__, buffer);
+            break;
+        case ERROR_LEX:
+        case ERROR_COMPILE:
+            ASSERT(parser != NULL, "Parser is null!");
+            fprintf(stderr, "%s:%d \"%s\"\n", ((Parser*)parser)->file, ((Parser*)parser)->preToken.lineNo, buffer);
+            break;
+        case ERROR_RUNTIME:
+            fprintf(stderr, "%s\n", buffer);
+            break;
+        default:
+            NOT_REACHED();
+    }
+    exit(1);
+}
