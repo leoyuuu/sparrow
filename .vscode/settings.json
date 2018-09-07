@@ -1,6 +1,20 @@
 {
     "files.associations": {
         "tool.h": "c",
-        "config.h": "c"
+        "config.h": "c",
+        "__functional_base": "cpp",
+        "__functional_base_03": "cpp",
+        "__tuple": "cpp",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "limits": "cpp",
+        "memory": "cpp",
+        "ratio": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "iterator": "cpp",
+        "string": "cpp",
+        "string_view": "cpp"
     }
 }
