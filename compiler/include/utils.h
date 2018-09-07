@@ -46,7 +46,6 @@ typedef struct {
         buf->count = buf->capacity = 0;\
     }\
     \
-    \
     void type##BufferFillWrite(VM* vm, type##Buffer* buf, type data, uint32_t fillCount) {\
     uint32_t newCounts = buf->count + fillCount;\
     if(newCounts > buf->capacity) {\
@@ -62,18 +61,15 @@ typedef struct {
         cnt++;\
     }\
     \
-    \
     void type##BufferAdd(VM* vm, type##Buffer* buf, type data){\
         type##BufferFillWrite(vm, buf, data, 1);\
     }\
-    \
     \
     void type##BufferClear(VM* vm, type##Buffer* buf){\
         size_t oldSize = buf->capacity * sizeof(buf->datas[0]);\
         memManager(vm, buf->datas, oldSize, 0);\
         type##BufferInit(buf);\
     }
-
 
 #define SymbolTable StringBuffer
 typedef uint8_t Byte;
