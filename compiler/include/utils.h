@@ -99,16 +99,16 @@ void errorReport(void *parser, ErrorType errorType, const char* fmt, ...);
     errorReport(NULL, ERROR_IO, __VA_ARGS__)
 
 #define MEM_ERROR(...) \
-    errorReport(NULL, ERROR_IO, __VA_ARGS__)
+    errorReport(NULL, ERROR_MEM, __VA_ARGS__)
 
 #define LEX_ERROR(...) \
-    errorReport(NULL, ERROR_IO, __VA_ARGS__)
+    errorReport(NULL, ERROR_LEX, __VA_ARGS__)
 
 #define COMPILE_ERROR(...) \
-    errorReport(NULL, ERROR_IO, __VA_ARGS__)
+    errorReport(NULL, ERROR_COMPILE, __VA_ARGS__)
 
 #define RUN_ERROR(...) \
-    errorReport(NULL, ERROR_IO, __VA_ARGS__)
+    errorReport(NULL, ERROR_RUNTIME, __VA_ARGS__)
 
 #define DEFAULT_BUFFER_SIZE 512
 
