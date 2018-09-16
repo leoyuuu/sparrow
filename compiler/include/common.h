@@ -1,5 +1,5 @@
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef LIE_COMMON_H
+#define LIE_COMMON_H
 
 #include <stdio.h>
 #include <stdlib.h>

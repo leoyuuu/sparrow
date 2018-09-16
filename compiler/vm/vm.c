@@ -1,6 +1,6 @@
 #include "vm.h"
+#include <utils.h>
 #include <stdlib.h>
-#include "../include/utils.h"
 
 void initVM(VM* vm) {
     vm->allocatedBytes = 0;

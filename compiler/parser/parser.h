@@ -1,7 +1,8 @@
-#ifndef PARSER_H
-#define PARSER_H
-#include "../include/common.h"
-#include "../vm/vm.h"
+#ifndef LIE_PARSER_H
+#define LIE_PARSER_H
+
+#include "common.h"
+#include "vm.h"
 
 typedef enum {
     TOKEN_UNKNOWN,
@@ -95,8 +96,8 @@ struct parser {
     Token preToken;
     // 跟踪小括号对的嵌套
     int interpolationExpectRightParenNum;
-    VM*vm
-}
+    VM*vm;
+};
 
 #define PEEK_TOKEN(parserPtr) (parserPtr->curToken.type)
 

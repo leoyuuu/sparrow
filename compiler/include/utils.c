@@ -1,6 +1,6 @@
 #include "utils.h"
-#include "../vm/vm.h"
-#include "../parser/parser.h"
+#include "vm.h"
+#include "parser.h"
 #include <stdlib.h>
 #include <stdarg.h>
 
@@ -41,11 +41,11 @@ void symbolTableClear(VM* vm, SymbolTable* buffer) {
 }
 
 void errorReport(void* parser, ErrorType errorType, const char* fmt, ...) {
-    char buffer(DEFAULT_BUFFER_SIZE) = ('\0');
+    char buffer[DEFAULT_BUFFER_SIZE] = {'\0'};
     va_list ap;
     va_start(ap, fmt);
-    vsnprintf(buffer, DEFAULT_BUFFER_SIZE, fmt, ap)l
-    va_end(ap)l
+    vsnprintf(buffer, DEFAULT_BUFFER_SIZE, fmt, ap);
+    va_end(ap);
 
     switch(errorType) {
         case ERROR_IO:

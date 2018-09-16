@@ -1,5 +1,5 @@
-#ifndef UNICODE_UTF8_H
-#define UNICODE_UTF8_H
+#ifndef LIE_UNICODE_UTF8_H
+#define LIE_UNICODE_UTF8_H
 
 #include <stdint.h>
 

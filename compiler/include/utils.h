@@ -1,5 +1,5 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef LIE_UTILS_H
+#define LIE_UTILS_H
 
 #include "common.h"
 
@@ -27,7 +27,7 @@ typedef struct {
 } CharValue;
 
 #define DECLARE_BUFFER_TYPE(type) \
-    type struct {\
+    typedef struct {\
         /* 数据缓冲区 */ \
         type* datas;\
         /* 缓冲区中已使用的元素个数*/ \
@@ -47,21 +47,21 @@ typedef struct {
     }\
     \
     void type##BufferFillWrite(VM* vm, type##Buffer* buf, type data, uint32_t fillCount) {\
-    uint32_t newCounts = buf->count + fillCount;\
-    if(newCounts > buf->capacity) {\
-        size_t oldSize = buf->capacity * sizeof(type);\
-        buf->capacity = ceilToPowerOf2(newCounts);\
-        size_t newSize = buf->capacity * sizeof(type);\
-        ASSERT(newSize > oldSize, "faint...memory allocate!");\
-        buf->datas = (type*)memManager(vm, buf->datas, oldSize, newSize);\
+        uint32_t newCounts = buf->count + fillCount;\
+        if(newCounts > buf->capacity) {\
+            size_t oldSize = buf->capacity * sizeof(type);\
+            buf->capacity = ceilToPowerOf2(newCounts);\
+            size_t newSize = buf->capacity * sizeof(type);\
+            ASSERT(newSize > oldSize, "faint...memory allocate!");\
+            buf->datas = (type*)memManager(vm, buf->datas, oldSize, newSize);\
+        }\
+        uint32_t cnt = 0;\
+        while(cnt < fillCount){\
+            buf->datas[buf->count++] = data;\
+            cnt++;\
+        }\
     }\
-    uint32_t cnt = 0;\
-    while(cnt < fillCount){\
-        buf->datas[buf->count++] = data;\
-        cnt++;\
-    }\
-    \
-    void type##BufferAdd(VM* vm, type##Buffer* buf, type data){\
+    void type##BufferAdd(VM* vm, type##Buffer* buf, type data) {\
         type##BufferFillWrite(vm, buf, data, 1);\
     }\
     \
@@ -71,15 +71,17 @@ typedef struct {
         type##BufferInit(buf);\
     }
 
+DECLARE_BUFFER_TYPE(String)
 #define SymbolTable StringBuffer
+
 typedef uint8_t Byte;
 typedef char Char;
 typedef int Int;
 
-DECLARE_BUFFER_TYPE(String)
 DECLARE_BUFFER_TYPE(Byte)
 DECLARE_BUFFER_TYPE(Char)
 DECLARE_BUFFER_TYPE(Int)
+
 
 typedef enum {
     ERROR_IO,
