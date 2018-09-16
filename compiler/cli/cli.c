@@ -8,12 +8,12 @@
 
 static void runFile(const char* path) {
     const char* lastSlash = strrchr(path, '/');
-    if (lastSlash == NULL) {
+    if (lastSlash != NULL) {
         char* root = (char*) malloc(lastSlash - path + 2);
         memcpy(root, path, lastSlash - path + 1);
         root[lastSlash-path+1] = '\0';
     }
-
+    
     VM* vm = newVM();
     const char* sourceCode = readFile(path);
     struct parser parser;
@@ -29,7 +29,7 @@ static void runFile(const char* path) {
         while(idx < parser.curToken.length) {
             printf("%c", *(parser.curToken.start+idx++));
         }
-        printf(")\n");
+        printf("]\n");
     }
 }
 

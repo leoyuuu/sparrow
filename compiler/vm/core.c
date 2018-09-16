@@ -14,6 +14,7 @@ char* readFile(const char* path) {
     struct stat fileStat;
     stat(path, &fileStat);
     size_t fileSize = fileStat.st_size;
+    printf("file size: %zu", fileSize);
     char* fileContent = (char *)malloc(fileSize + 1);
     if (fileContent == NULL) {
         MEM_ERROR("Couldn't allocate memory for reading file \"%s\"", path);

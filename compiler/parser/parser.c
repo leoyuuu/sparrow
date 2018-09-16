@@ -263,6 +263,7 @@ void getNextToken(Parser* parser) {
                         break;
                     }
                 }
+                parser->curToken.type = TOKEN_RIGHT_PAREN;
                 break;
             case '[':
                 parser->curToken.type = TOKEN_LEFT_BRACKET;
