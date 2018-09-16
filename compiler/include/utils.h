@@ -99,11 +99,11 @@ void errorReport(void *parser, ErrorType errorType, const char* fmt, ...);
 #define MEM_ERROR(...) \
     errorReport(NULL, ERROR_MEM, __VA_ARGS__)
 
-#define LEX_ERROR(...) \
-    errorReport(NULL, ERROR_LEX, __VA_ARGS__)
+#define LEX_ERROR(parser, ...) \
+    errorReport(parser, ERROR_LEX, __VA_ARGS__)
 
-#define COMPILE_ERROR(...) \
-    errorReport(NULL, ERROR_COMPILE, __VA_ARGS__)
+#define COMPILE_ERROR(parser, ...) \
+    errorReport(parser, ERROR_COMPILE, __VA_ARGS__)
 
 #define RUN_ERROR(...) \
     errorReport(NULL, ERROR_RUNTIME, __VA_ARGS__)

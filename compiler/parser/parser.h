@@ -96,7 +96,7 @@ struct parser {
     Token preToken;
     // 跟踪小括号对的嵌套
     int interpolationExpectRightParenNum;
-    VM*vm;
+    VM* vm;
 };
 
 #define PEEK_TOKEN(parserPtr) (parserPtr->curToken.type)
