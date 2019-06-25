@@ -4,6 +4,7 @@
 #include "common.h"
 #include "utils.h"
 #include "unicodeUtf8.h"
+#include "class.h"
 #include <string.h>
 #include <ctype.h>
 
@@ -90,6 +91,50 @@ static void parseId(Parser* parser, TokenType type) {
     }
 
     parser->curToken.length = length;
+}
+
+// 十六进制
+static void parseHexNum(Parser* parser) {
+    while(isxdigit(parser->curChar)) {
+        getNextChar(parser);
+    }
+}
+
+// 十进制
+static void parseDecNum(Parser* parser) {
+    while(isdigit(parser->curChar)) {
+        getNextChar(parser);
+    }
+
+    // 小数点
+    if(parser->curChar == '.' && isdigit(lookAheadChar(parser))) {
+        getNextChar(parser);
+        while(isdigit(parser->curChar)) {
+            getNextChar(parser);
+        }
+    }
+}
+
+static void parseOctNum(Parser* parser) {
+    while (parser->curChar >= '0' && parser->curChar < '8') {
+        getNextChar(parser);
+    }
+}
+
+static void parseNum(Parser* parser) {
+    if (parser->curChar == '0' && matchNextChar(parser, 'x')) {
+        getNextChar(parser); // 跳过 x;
+        parseHexNum(parser);
+        parser->curToken.value = NUM_TO_VALUE(strtol(parser->curToken.start, NULL, 16));
+    } else if (parser->curChar == '0' && isdigit(lookAheadChar(parser))) {
+        parseOctNum(parser);
+        parser->curToken.value = NUM_TO_VALUE(strtol(parser->curToken.start, NULL, 8));
+    } else {
+        parseDecNum(parser);
+        parser->curToken.value = NUM_TO_VALUE(strtod(parser->curToken.start, NULL));
+    }
+    parser->curToken.length = (uint32_t)(parser->nextCharPtr - parser->curToken.start - 1);
+    parser->curToken.type = TOKEN_NUM;
 }
 
 static void parseUnicodeCodePoint(Parser* parser, ByteBuffer* buf) {
@@ -194,6 +239,9 @@ static void parseString(Parser* parser) {
             ByteBufferAdd(parser->vm, &str, parser->curChar);
         }
     }
+    // 增加 token
+    ObjString* objString = newObjString(parser->vm, (const char*)str.datas, str.count);
+    parser->curToken.value = OBJ_TO_VALUE(objString);
     ByteBufferClear(parser->vm, &str);
 }
 
@@ -240,6 +288,7 @@ void getNextToken(Parser* parser) {
     parser->curToken.type = TOKEN_EOF;
     parser->curToken.length = 0;
     parser->curToken.start = parser->nextCharPtr - 1;
+    parser->curToken.value = VT_TO_VALUE(VT_UNDEFINED);
 
     while(parser->curChar != '\0') {
         switch(parser->curChar) {
@@ -363,7 +412,9 @@ void getNextToken(Parser* parser) {
             default:
                 if (isalpha(parser->curChar) || parser->curChar == '_') {
                     parseId(parser, TOKEN_UNKNOWN);
-                } else {
+                } else if (isdigit(parser->curChar)){
+                    parseNum(parser);
+                }else {
                     if (parser->curChar == '#' && matchNextChar(parser, '!')) {
                         skipAline(parser);
                         parser->curToken.start = parser->nextCharPtr -1;
@@ -374,6 +425,7 @@ void getNextToken(Parser* parser) {
                 return ;
         }
 
+        // 大部分 case 的出口
         parser->curToken.length = (uint32_t)(parser->nextCharPtr - parser->curToken.start);
         getNextChar(parser);
 
@@ -403,7 +455,7 @@ void consumeNextToken(Parser* parser, TokenType expected, const char* errMsg) {
     }
 }
 
-void initParser(VM* vm, Parser* parser, const char* file, const char* sourceCode) {
+void initParser(VM* vm, Parser* parser, const char* file, const char* sourceCode, ObjModule* objModule) {
     parser->file = file;
     parser->sourceCode = sourceCode;
     parser->curChar = *parser->sourceCode;
@@ -415,4 +467,5 @@ void initParser(VM* vm, Parser* parser, const char* file, const char* sourceCode
     parser->preToken = parser->curToken;
     parser->interpolationExpectRightParenNum = 0;
     parser->vm = vm;
+    parser->curModule = objModule;
 }
