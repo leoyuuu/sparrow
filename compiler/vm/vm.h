@@ -11,6 +11,9 @@ struct vm {
     uint32_t allocatedBytes;
     ObjHeader* allObjects;
     Parser* curParser;
+    Class* listClass;
+    Class* rangeClass;
+    Class* mapClass;
 };
 
 void initVM(VM* vm);
