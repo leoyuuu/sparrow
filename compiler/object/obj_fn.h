@@ -16,7 +16,7 @@ typedef struct {
     ValueBuffer constants;
     ObjModule* module;
 
-    uint32_t maxStackSlotUserdNum;
+    uint32_t maxStackSlotUsedNum;
     uint32_t upvalueNum;
     uint8_t argNum;
 #if DEBUG

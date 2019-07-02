@@ -4,6 +4,8 @@
 #include "common.h"
 #include "header_obj.h"
 #include "meta_obj.h"
+#include "obj_map.h"
+#include "obj_thread.h"
 
 
 typedef enum vmResult {
@@ -22,8 +24,12 @@ struct vm {
     Class* boolClass;
     Class* numClass;
     Class* fnClass;
+    Class* threadClass;
     uint32_t allocatedBytes;
     ObjHeader* allObjects;
+    SymbolTable allMethoNames;
+    ObjMap* allModules;
+    ObjThread* curThread;
     Parser* curParser;
 };
 

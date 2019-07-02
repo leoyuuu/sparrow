@@ -11,7 +11,7 @@ ObjFn* newObjFn(VM* vm, ObjModule* objModule, uint32_t slotNum) {
     ByteBufferInit(&objFn->instrStream);
     ValueBufferInit(&objFn->constants);
     objFn->module = objModule;
-    objFn->maxStackSlotUserdNum = slotNum;
+    objFn->maxStackSlotUsedNum = slotNum;
     objFn->upvalueNum = objFn->argNum = 0;
 
 #ifdef DEBUG
