@@ -7,6 +7,11 @@
 #define MAP_LOAD_PERCENT 0.8
 #endif
 
+#ifndef CAPACITY_GROW_FACTOR
+#define CAPACITY_GROW_FACTOR 4
+#endif
+
+
 typedef struct {
     Value key;
     Value value;

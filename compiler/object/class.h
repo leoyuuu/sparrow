@@ -82,4 +82,8 @@ typedef union {
     double num;
 } Bits64;
 
+#ifndef MIN_CAPACITY
+#define MIN_CAPACITY 64
+#endif
+
 #endif
