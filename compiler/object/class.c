@@ -26,7 +26,7 @@ bool valueIsEqual(Value a, Value b) {
     
     if (a.objHeader->type == OT_STRING) {
         ObjString* strA = VALUE_TO_OBJSTR(a);
-        ObjString* strB = VALUE_IS_OBJSTR(b);
+        ObjString* strB = VALUE_TO_OBJSTR(b);
         return (strA->value.length == strB->value.length) && 
         memcmp(strA->value.start, strB->value.start, strA->value.length) == 0;
     }
@@ -37,4 +37,36 @@ bool valueIsEqual(Value a, Value b) {
         return rgA->from == rgB->from && rgA->to == rgB->to;
     }
     
+}
+
+// 新建类
+Class* newRawClass(VM* vm, const char* name, uint32_t fieldNum) {
+    Class* class = ALLOCATE(vm, Class);
+
+    // 裸类没有元类
+    initObjHeader(vm, &class->header, OT_CLASS, NULL);
+    class->name = newObjString(vm, name, strlen(name));
+    class->fieldNum = fieldNum;
+    class->superClass = NULL;
+    MethodBufferInit(&class->methods);
+
+    return class;
+}
+
+Class* getClassOfObj(VM* vm, Value obj) {
+    switch (obj.type)
+    {
+        case VT_NULL:
+            return vm->nullClass;
+        case VT_FALSE:
+        case VT_TRUE:
+            return vm->boolClass;
+        case VT_NUM:
+            return vm->numClass;
+        case VT_OBJ:
+            return VALUE_TO_OBJ(obj)->class;
+        default:
+            NOT_REACHED();
+    }
+    return NULL;
 }

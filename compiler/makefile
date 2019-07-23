@@ -1,6 +1,6 @@
 CC = gcc
-#CFLAGS = -g -DDEBUG -lm -Wall -I object -I vm -i compiler -I parser -I include -I cli -I gc -W -Wstrict-prototypes -Wmissiong-prototypes -Wsystem-headers
-CFLAGS = -g -DDEBUG -lm -Wall -I object -I vm -I parser -I include -I cli -I gc -W -Wstrict-prototypes -Wmissiong-prototypes -Wsystem-headers
+CFLAGS = -g -DDEBUG -lm -Wall -I object -I vm -I compiler -I parser -I include -I cli -I gc -W -Wstrict-prototypes -Wmissiong-prototypes -Wsystem-headers
+# CFLAGS = -g -DDEBUG -lm -Wall -I object -I vm -I parser -I include -I cli -I gc -W -Wstrict-prototypes -Wmissiong-prototypes -Wsystem-headers
 TARGET = lie
 DIRS = object include cli compiler parser vm gc
 CFILES = $(foreach dir, $(DIRS), $(wildcard $(dir)/*.c))

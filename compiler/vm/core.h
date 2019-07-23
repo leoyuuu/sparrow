@@ -3,5 +3,5 @@
 
 extern char* rootDir;
 char* readFile(const char* sourceFile);
-
+void buildCore(VM* vm);
 #endif

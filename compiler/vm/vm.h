@@ -27,7 +27,7 @@ struct vm {
     Class* threadClass;
     uint32_t allocatedBytes;
     ObjHeader* allObjects;
-    SymbolTable allMethoNames;
+    SymbolTable allMethodNames;
     ObjMap* allModules;
     ObjThread* curThread;
     Parser* curParser;

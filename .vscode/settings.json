@@ -23,5 +23,11 @@
         "atomic": "c",
         "bitset": "c",
         "vector": "c",
+        "vm.h": "c",
+        "string.h": "c",
+        "utils.h": "c",
+        "debug.h": "c",
+        "class.h": "c",
+        "compiler.h": "c"
     }
 }

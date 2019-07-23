@@ -18,8 +18,8 @@ typedef enum {
         ((Value){vt, {0}})
 
 
-#define BOOL_TO_VALUE(boolean) ((boolean) ? VT_TO_VALUE(TV_TRUE) : VT_TO_VALUE(TV_FALSE))
-#define VALUE_TO_BOOL(value)  ((value).type == VT_TRUE ?  true, false)
+#define BOOL_TO_VALUE(boolean) ((boolean) ? VT_TO_VALUE(VT_TRUE) : VT_TO_VALUE(VT_FALSE))
+#define VALUE_TO_BOOL(value)  ((value).type == VT_TRUE ?  true : false)
 
 #define NUM_TO_VALUE(num)  ((Value){VT_NUM, {num}})
 #define VALUE_TO_NUM(value) value.num
@@ -85,5 +85,10 @@ typedef union {
 #ifndef MIN_CAPACITY
 #define MIN_CAPACITY 64
 #endif
+
+bool valueIsEqual(Value a, Value b);
+Class* newRawClass(VM* vm, const char* name, uint32_t fieldNum); 
+Class* getClassOfObj(VM* vm, Value object);
+Class* newClass(VM* vm, ObjString* className, uint32_t fieldNum, Class* superClass);
 
 #endif
